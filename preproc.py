@@ -47,7 +47,7 @@ def data_transforms(dataset, cutout_length):
         MEAN = [0.485, 0.456, 0.406]
         STD = [0.229, 0.224, 0.225]
         transf = [
-            transforms.RandomResizedCrop(224),
+            transforms.RandomResizedCrop(112),
             transforms.RandomHorizontalFlip()
         ]
     elif dataset == 'mnist':
