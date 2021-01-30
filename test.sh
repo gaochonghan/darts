@@ -26,4 +26,4 @@ export NCCL_IB_DISABLE=1
 export MKL_THREADING_LAYER=GNU
 export CUDA_HOME=/usr/local/cuda-10.2
 # sugon does not support infiniband
-srun python ./search.py --name test --dataset imagenet --batch_size 16 --epochs 20
+srun python ./search.py --name test --dataset imagenet --batch_size 8 --epochs 20

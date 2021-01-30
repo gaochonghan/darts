@@ -74,8 +74,8 @@ def data_transforms(dataset, cutout_length):
     train_transform = transforms.Compose(transf + normalize)
     valid_transform = transforms.Compose(normalize)
     if dataset == 'imagenet':
-        valid_transform = transforms.Compose([transforms.Resize(256),
-                                              transforms.CenterCrop(224)] + normalize)
+        valid_transform = transforms.Compose([transforms.Resize(128),
+                                              transforms.CenterCrop(112)] + normalize)
     if cutout_length > 0:
         train_transform.transforms.append(Cutout(cutout_length))
 
