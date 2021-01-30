@@ -12,7 +12,6 @@ echo Time is `date`
 echo Directory is $PWD
 echo This job runs on the following nodes:
 echo "$SLURM_JOB_NODELIST"
-cd ..
 eval "$(conda shell.bash hook)"
 source /home/LAB/gaoch/miniconda2/bin/activate base
 # conda --version
