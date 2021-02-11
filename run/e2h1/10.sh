@@ -27,4 +27,4 @@ export MKL_THREADING_LAYER=GNU
 export CUDA_HOME=/usr/local/cuda-10.2
 # sugon does not support infiniband
 srun python ./augment.py --name a10 --dataset cifar10 --batch_size 128 --epochs 2000 --genotype \
-"Genotype(normal=[[('sep_conv_3x3', 1), ('dil_conv_3x3', 0)], [('sep_conv_3x3', 1), ('sep_conv_3x3', 0)], [('sep_conv_3x3', 1), ('sep_conv_3x3', 0)], [('sep_conv_3x3', 1), ('sep_conv_5x5', 4)]], normal_concat=range(2, 6), reduce=[[('max_pool_3x3', 0), ('max_pool_3x3', 1)], [('max_pool_3x3', 1), ('max_pool_3x3', 0)], [('max_pool_3x3', 1), ('skip_connect', 2)], [('skip_connect', 2), ('skip_connect', 3)]], reduce_concat=range(2, 6))""
+"Genotype(normal=[[('sep_conv_3x3', 1), ('dil_conv_3x3', 0)], [('sep_conv_3x3', 1), ('sep_conv_3x3', 0)], [('sep_conv_3x3', 1), ('sep_conv_3x3', 0)], [('sep_conv_3x3', 1), ('sep_conv_5x5', 4)]], normal_concat=range(2, 6), reduce=[[('max_pool_3x3', 0), ('max_pool_3x3', 1)], [('max_pool_3x3', 1), ('max_pool_3x3', 0)], [('max_pool_3x3', 1), ('skip_connect', 2)], [('skip_connect', 2), ('skip_connect', 3)]], reduce_concat=range(2, 6))"
