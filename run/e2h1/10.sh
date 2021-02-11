@@ -17,6 +17,7 @@ source /home/LAB/gaoch/miniconda2/bin/activate base
 # conda --version
 # which python
 conda activate gchmini
+cd ../..
 echo Python:
 which python
 export NCCL_IB_DISABLE=1

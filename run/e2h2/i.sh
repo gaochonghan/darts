@@ -4,7 +4,7 @@
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=4
 #SBATCH --gres=gpu:V100:1
-#SBATCH -J a100
+#SBATCH -J 2ai
 #SBATCH -o log/job-%j.log
 #SBATCH -e log/job-%j.err
 # shellcheck disable=SC2046
@@ -26,5 +26,5 @@ export NCCL_IB_DISABLE=1
 export MKL_THREADING_LAYER=GNU
 export CUDA_HOME=/usr/local/cuda-10.2
 # sugon does not support infiniband
-srun python ./augment.py --name a100 --dataset cifar100 --batch_size 128 --epochs 2000 --genotype \
-"Genotype(normal=[[('sep_conv_3x3', 1), ('sep_conv_3x3', 0)], [('sep_conv_3x3', 1), ('sep_conv_3x3', 0)], [('sep_conv_3x3', 1), ('sep_conv_3x3', 0)], [('sep_conv_5x5', 4), ('sep_conv_3x3', 1)]], normal_concat=range(2, 6), reduce=[[('max_pool_3x3', 0), ('max_pool_3x3', 1)], [('max_pool_3x3', 1), ('max_pool_3x3', 0)], [('max_pool_3x3', 1), ('max_pool_3x3', 0)], [('skip_connect', 2), ('skip_connect', 3)]], reduce_concat=range(2, 6))"
+srun python ./augment.py --name 2ai --dataset imagenet --batch_size 128 --epochs 2000 --genotype \
+"Genotype(normal=[[('max_pool_3x3', 0), ('max_pool_3x3', 1)], [('max_pool_3x3', 0), ('sep_conv_5x5', 2)], [('max_pool_3x3', 0), ('max_pool_3x3', 1)], [('sep_conv_5x5', 4), ('max_pool_3x3', 0)]], normal_concat=range(2, 6), reduce=[[('max_pool_3x3', 0), ('max_pool_3x3', 1)], [('max_pool_3x3', 2), ('max_pool_3x3', 0)], [('max_pool_3x3', 0), ('max_pool_3x3', 2)], [('max_pool_3x3', 0), ('max_pool_3x3', 2)]], reduce_concat=range(2, 6))"
