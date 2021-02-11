@@ -109,7 +109,7 @@ class AugmentConfig(BaseConfig):
         args = parser.parse_args()
         super().__init__(**vars(args))
 
-        self.data_path = './data/'
+        self.data_path = '/home/LAB/gaoch/asdf/data'
         self.path = os.path.join('augments', self.name)
         self.path = os.path.join(self.path, os.environ["SLURM_JOBID"])
         self.genotype = gt.from_str(self.genotype)
