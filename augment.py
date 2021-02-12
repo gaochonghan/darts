@@ -104,18 +104,23 @@ def train(train_loader, model, optimizer, criterion, epoch):
     model.train()
 
     for step, (X, y) in enumerate(train_loader):
+        logger.info("ck 1")
         X, y = X.to(device, non_blocking=True), y.to(device, non_blocking=True)
         N = X.size(0)
-
+        logger.info("ck 2")
         optimizer.zero_grad()
         logits, aux_logits = model(X)
+        logger.info("ck 3")
         loss = criterion(logits, y)
+        logger.info("ck 4")
         if config.aux_weight > 0.:
             loss += config.aux_weight * criterion(aux_logits, y)
         loss.backward()
+        logger.info("ck 5")
         # gradient clipping
         nn.utils.clip_grad_norm_(model.parameters(), config.grad_clip)
         optimizer.step()
+        logger.info("ck 6")
 
         prec1, prec5 = utils.accuracy(logits, y, topk=(1, 5))
         losses.update(loss.item(), N)
