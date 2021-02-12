@@ -9,11 +9,14 @@ class AuxiliaryHead(nn.Module):
     """ Auxiliary head in 2/3 place of network to let the gradient flow well """
     def __init__(self, input_size, C, n_classes):
         """ assuming input size 7x7 or 8x8 """
-        assert input_size in [7, 8]
+        if input_size in [7, 8]:
+            kernel_size = 5
+        else:
+            kernel_size = 40
         super().__init__()
         self.net = nn.Sequential(
             nn.ReLU(inplace=True),
-            nn.AvgPool2d(5, stride=input_size-5, padding=0, count_include_pad=False), # 2x2 out
+            nn.AvgPool2d(kernel_size, stride=input_size-kernel_size, padding=0, count_include_pad=False),  # 2x2 out
             nn.Conv2d(C, 128, kernel_size=1, bias=False),
             nn.BatchNorm2d(128),
             nn.ReLU(inplace=True),
