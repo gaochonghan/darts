@@ -13,10 +13,10 @@ echo Directory is $PWD
 echo This job runs on the following nodes:
 echo "$SLURM_JOB_NODELIST"
 eval "$(conda shell.bash hook)"
-source /home/LAB/gaoch/miniconda2/bin/activate base
+source /home/LAB/anaconda3/bin/activate base
 # conda --version
 # which python
-conda activate gchmini
+conda activate cpy
 cd ../..
 echo Python:
 which python
@@ -26,5 +26,5 @@ export NCCL_IB_DISABLE=1
 export MKL_THREADING_LAYER=GNU
 export CUDA_HOME=/usr/local/cuda-10.2
 # sugon does not support infiniband
-srun python ./augment.py --name a100 --dataset cifar100 --batch_size 128 --epochs 2000 --genotype \
-"Genotype(normal=[[('sep_conv_3x3', 1), ('sep_conv_3x3', 0)], [('sep_conv_3x3', 1), ('sep_conv_3x3', 0)], [('sep_conv_3x3', 1), ('sep_conv_3x3', 0)], [('sep_conv_5x5', 4), ('sep_conv_3x3', 1)]], normal_concat=range(2, 6), reduce=[[('max_pool_3x3', 0), ('max_pool_3x3', 1)], [('max_pool_3x3', 1), ('max_pool_3x3', 0)], [('max_pool_3x3', 1), ('max_pool_3x3', 0)], [('skip_connect', 2), ('skip_connect', 3)]], reduce_concat=range(2, 6))"
+srun python ./augment.py --name a100 --dataset cifar100 --batch_size 196 --epochs 2000 --genotype \
+"Genotype(normal=[[('skip_connect', 0), ('skip_connect', 1)], [('max_pool_3x3', 0), ('dil_conv_5x5', 2)], [('max_pool_3x3', 0), ('dil_conv_5x5', 3)], [('sep_conv_5x5', 4), ('max_pool_3x3', 0)]], normal_concat=range(2, 6), reduce=[[('max_pool_3x3', 0), ('avg_pool_3x3', 1)], [('dil_conv_5x5', 2), ('avg_pool_3x3', 0)], [('dil_conv_5x5', 2), ('dil_conv_5x5', 3)], [('avg_pool_3x3', 0), ('dil_conv_5x5', 4)]], reduce_concat=range(2, 6))"
