@@ -26,4 +26,5 @@ export NCCL_IB_DISABLE=1
 export MKL_THREADING_LAYER=GNU
 export CUDA_HOME=/usr/local/cuda-10.2
 # sugon does not support infiniband
-srun python search.py --name cifar100 --dataset cifar100 --epochs 30
+srun python ./augment.py --name a100 --dataset cifar100 --batch_size 196 --epochs 2000 --genotype \
+"Genotype(normal=[[('dil_conv_3x3', 1), ('skip_connect', 0)], [('dil_conv_3x3', 2), ('dil_conv_3x3', 1)], [('dil_conv_5x5', 3), ('sep_conv_5x5', 2)], [('dil_conv_5x5', 3), ('dil_conv_5x5', 4)]], normal_concat=range(2, 6), reduce=[[('skip_connect', 0), ('dil_conv_3x3', 1)], [('skip_connect', 0), ('dil_conv_5x5', 1)], [('skip_connect', 0), ('max_pool_3x3', 1)], [('dil_conv_5x5', 4), ('max_pool_3x3', 0)]], reduce_concat=range(2, 6))"
