@@ -85,7 +85,11 @@ def main():
             is_best = True
         else:
             is_best = False
-        utils.save_checkpoint(model, config.path, is_best)
+        utils.save_checkpoint({
+            'state_dict': model.module.state_dict(),
+            'best_top1': best_top1,
+            'optimizer': optimizer.state_dict()
+            }, config.path, is_best)
 
         print("")
 

@@ -57,6 +57,18 @@ class AugmentCNN(nn.Module):
             nn.Conv2d(C_in, C_cur, 3, 1, 1, bias=False),
             nn.BatchNorm2d(C_cur)
         )
+        if n_classes == 200 or n_classes == 1000:
+            self.stem = nn.Sequential(
+                nn.Conv2d(C_in, C_cur // 2, kernel_size=3, stride=2, padding=1, bias=False),
+                nn.BatchNorm2d(C_cur // 2),
+                nn.ReLU(inplace=True),
+                nn.Conv2d(C_cur // 2, C_cur, 3, stride=2, padding=1, bias=False),
+                nn.BatchNorm2d(C_cur),
+                nn.ReLU(inplace=True),
+                nn.Conv2d(C_cur, C_cur, 3, stride=2, padding=1, bias=False),
+                nn.BatchNorm2d(C_cur),
+            )
+
 
         C_pp, C_p, C_cur = C_cur, C_cur, C
 
@@ -78,7 +90,10 @@ class AugmentCNN(nn.Module):
             if i == self.aux_pos:
                 # [!] this auxiliary head is ignored in computing parameter size
                 #     by the name 'aux_head'
-                self.aux_head = AuxiliaryHead(input_size//4, C_p, n_classes)
+                if self.n_classes == 200:
+                    self.aux_head = AuxiliaryHead(input_size//32, C_p, n_classes)
+                else:
+                    self.aux_head = AuxiliaryHead(input_size//4, C_p, n_classes)
 
         self.gap = nn.AdaptiveAvgPool2d(1)
         self.linear = nn.Linear(C_p, n_classes)

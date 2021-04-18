@@ -19,7 +19,7 @@ def get_data(dataset, data_path, cutout_length, validation):
         dset_cls = dset.CIFAR100
         n_classes = 100
     elif dataset == 'imagenet':
-        n_classes = 1000
+        n_classes = 200
     elif dataset == 'mnist':
         dset_cls = dset.MNIST
         n_classes = 10
@@ -30,12 +30,12 @@ def get_data(dataset, data_path, cutout_length, validation):
         raise ValueError(dataset)
     if dataset == "imagenet":
         trn_transform, val_transform = preproc.data_transforms(dataset, cutout_length)
-        trn_data = dset.ImageFolder(root="/home/LAB/gaoch/asdf/data/imagenet_mini/train", transform=trn_transform)
+        trn_data = dset.ImageFolder(root="/home/LAB/gaoch/asdf/data/imagenet_new/train", transform=trn_transform)
         input_channels = 3
         input_size = trn_data[0][0].shape[1]
         ret = [input_size, input_channels, n_classes, trn_data]
         if validation:
-            val_data = dset.ImageFolder(root=os.path.join(data_path, "/home/LAB/gaoch/asdf/data/imagenet_mini/valid"), transform=val_transform)
+            val_data = dset.ImageFolder(root=os.path.join(data_path, "/home/LAB/gaoch/asdf/data/imagenet_new/valid"), transform=val_transform)
             ret.append(val_data)
         return ret
 
