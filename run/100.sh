@@ -13,10 +13,10 @@ echo Directory is $PWD
 echo This job runs on the following nodes:
 echo "$SLURM_JOB_NODELIST"
 eval "$(conda shell.bash hook)"
-source /home/LAB/anaconda3/bin/activate base
+source /home/LAB/gaoch/miniconda2/bin/activate base
 # conda --version
 # which python
-conda activate cpy
+conda activate gchmini
 cd ..
 echo Python:
 which python
