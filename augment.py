@@ -43,6 +43,9 @@ def main():
     use_aux = config.aux_weight > 0.
     model = AugmentCNN(input_size, input_channels, config.init_channels, n_classes, config.layers,
                        use_aux, config.genotype)
+    if config.checkpoint != "":
+        checkpoint = torch.load(os.path.join(config.checkpoint, "checkpoint.pth.tar"), map_location=device)
+        model.load_state_dict(checkpoint["state_dict"])
     model = nn.DataParallel(model, device_ids=config.gpus).to(device)
 
     # model size
@@ -52,6 +55,10 @@ def main():
     # weights optimizer
     optimizer = torch.optim.SGD(model.parameters(), config.lr, momentum=config.momentum,
                                 weight_decay=config.weight_decay)
+    best_top1 = 0.
+    if config.checkpoint != "":
+        optimizer.load_state_dict(checkpoint[optimizer])
+        best_top1 = checkpoint["best_top1"]
 
     train_loader = torch.utils.data.DataLoader(train_data,
                                                batch_size=config.batch_size,
@@ -65,9 +72,9 @@ def main():
                                                pin_memory=True)
     lr_scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(optimizer, config.epochs)
 
-    best_top1 = 0.
+
     # training loop
-    for epoch in range(config.epochs):
+    for epoch in range(config.old_epoch, config.epochs):
         lr_scheduler.step()
         drop_prob = config.drop_path_prob * epoch / config.epochs
         model.module.drop_path_prob(drop_prob)
