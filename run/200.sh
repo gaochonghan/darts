@@ -27,7 +27,7 @@ export MKL_THREADING_LAYER=GNU
 export CUDA_HOME=/usr/local/cuda-10.2
 # sugon does not support infiniband
 srun python ./augment.py --name a200 --dataset imagenet --batch_size 256 --epochs 2000 \
---checkpoint "/home/LAB/gaoch/darts/augments/a200/215683" --old_epoch 1205--genotype \
+--checkpoint "/home/LAB/gaoch/darts/augments/a200/215683" --old_epoch 1205 --genotype \
 "Genotype(normal=[[('dil_conv_5x5', 0), ('dil_conv_5x5', 1)], [('dil_conv_5x5', 0), ('sep_conv_3x3', 1)], [('dil_conv_5x5', 1), ('dil_conv_3x3', 2)], [('dil_conv_5x5', 0), ('dil_conv_5x5', 4)]], normal_concat=range(2, 6), reduce=[[('max_pool_3x3', 0), ('dil_conv_3x3', 1)], [('skip_connect', 2), ('avg_pool_3x3', 0)], [('skip_connect', 2), ('avg_pool_3x3', 0)], [('skip_connect', 2), ('avg_pool_3x3', 0)]], reduce_concat=range(2, 6))"
 # we2h1
 # e2h3"Genotype(normal=[[('dil_conv_3x3', 0), ('dil_conv_5x5', 1)], [('sep_conv_3x3', 0), ('dil_conv_5x5', 2)], [('dil_conv_3x3', 3), ('sep_conv_3x3', 1)], [('dil_conv_3x3', 0), ('sep_conv_3x3', 1)]], normal_concat=range(2, 6), reduce=[[('dil_conv_5x5', 0), ('skip_connect', 1)], [('dil_conv_5x5', 2), ('dil_conv_5x5', 1)], [('dil_conv_5x5', 3), ('skip_connect', 2)], [('dil_conv_5x5', 4), ('dil_conv_5x5', 3)]], reduce_concat=range(2, 6))"
