@@ -57,7 +57,7 @@ def main():
                                 weight_decay=config.weight_decay)
     best_top1 = 0.
     if config.checkpoint != "":
-        optimizer.load_state_dict(checkpoint[optimizer])
+        optimizer.load_state_dict(checkpoint["optimizer"])
         best_top1 = checkpoint["best_top1"]
 
     train_loader = torch.utils.data.DataLoader(train_data,
