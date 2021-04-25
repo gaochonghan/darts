@@ -95,7 +95,7 @@ class AugmentConfig(BaseConfig):
         parser.add_argument('--init_channels', type=int, default=36)
         parser.add_argument('--layers', type=int, default=20, help='# of layers')
         parser.add_argument('--seed', type=int, default=2, help='random seed')
-        parser.add_argument('--workers', type=int, default=4, help='# of workers')
+        parser.add_argument('--workers', type=int, default=32, help='# of workers')
         parser.add_argument('--aux_weight', type=float, default=0.4, help='auxiliary loss weight')
         parser.add_argument('--cutout_length', type=int, default=16, help='cutout length')
         parser.add_argument('--drop_path_prob', type=float, default=0.2, help='drop path prob')

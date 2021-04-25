@@ -79,6 +79,9 @@ def param_size(model):
         np.prod(v.size()) for k, v in model.named_parameters() if not k.startswith('aux_head'))
     return n_params / 1024. / 1024.
 
+def count_parameters_in_MB(model):
+  return np.sum(np.prod(v.size()) for name, v in model.named_parameters() if "auxiliary" not in name)/1e6
+
 
 class AverageMeter():
     """ Computes and stores the average and current value """
