@@ -114,5 +114,7 @@ class AugmentConfig(BaseConfig):
         self.data_path = '/home/LAB/gaoch/asdf/data'
         self.path = os.path.join('augments', self.name)
         self.path = os.path.join(self.path, os.environ["SLURM_JOBID"])
+        if not os.path.exists(self.path):
+            os.makedirs(self.path)
         self.genotype = gt.from_str(self.genotype)
         self.gpus = parse_gpus(self.gpus)

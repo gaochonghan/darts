@@ -47,7 +47,7 @@ def main():
     torch.cuda.manual_seed(config.seed)
     logging.info("config = %s", config)
     num_gpus = torch.cuda.device_count()   
-    genotype = eval("genotypes.%s" % config.genotype)
+    genotype = config.genotype
     print('---------Genotype---------')
     logging.info(genotype)
     print('--------------------------') 
