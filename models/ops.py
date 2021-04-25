@@ -3,7 +3,6 @@ import torch
 import torch.nn as nn
 import genotypes as gt
 
-
 OPS = {
     'none': lambda C, stride, affine: Zero(stride),
     'avg_pool_3x3': lambda C, stride, affine: PoolBN('avg', C, 3, stride, 1, affine=affine),
@@ -13,10 +12,23 @@ OPS = {
     'sep_conv_3x3': lambda C, stride, affine: SepConv(C, C, 3, stride, 1, affine=affine),
     'sep_conv_5x5': lambda C, stride, affine: SepConv(C, C, 5, stride, 2, affine=affine),
     'sep_conv_7x7': lambda C, stride, affine: SepConv(C, C, 7, stride, 3, affine=affine),
-    'dil_conv_3x3': lambda C, stride, affine: DilConv(C, C, 3, stride, 2, 2, affine=affine), # 5x5
-    'dil_conv_5x5': lambda C, stride, affine: DilConv(C, C, 5, stride, 4, 2, affine=affine), # 9x9
+    'dil_conv_3x3': lambda C, stride, affine: DilConv(C, C, 3, stride, 2, 2, affine=affine),  # 5x5
+    'dil_conv_5x5': lambda C, stride, affine: DilConv(C, C, 5, stride, 4, 2, affine=affine),  # 9x9
     'conv_7x1_1x7': lambda C, stride, affine: FacConv(C, C, 7, stride, 3, affine=affine)
 }
+
+
+class ReLUConvBN(nn.Module):
+    def __init__(self, C_in, C_out, kernel_size, stride, padding, affine=True):
+        super(ReLUConvBN, self).__init__()
+        self.op = nn.Sequential(
+            nn.ReLU(inplace=False),
+            nn.Conv2d(C_in, C_out, kernel_size, stride=stride, padding=padding, bias=False),
+            nn.BatchNorm2d(C_out, affine=affine)
+        )
+
+    def forward(self, x):
+        return self.op(x)
 
 
 def drop_path_(x, drop_prob, training):
@@ -51,6 +63,7 @@ class PoolBN(nn.Module):
     """
     AvgPool or MaxPool - BN
     """
+
     def __init__(self, pool_type, C, kernel_size, stride, padding, affine=True):
         """
         Args:
@@ -76,6 +89,7 @@ class StdConv(nn.Module):
     """ Standard conv
     ReLU - Conv - BN
     """
+
     def __init__(self, C_in, C_out, kernel_size, stride, padding, affine=True):
         super().__init__()
         self.net = nn.Sequential(
@@ -92,6 +106,7 @@ class FacConv(nn.Module):
     """ Factorized conv
     ReLU - Conv(Kx1) - Conv(1xK) - BN
     """
+
     def __init__(self, C_in, C_out, kernel_length, stride, padding, affine=True):
         super().__init__()
         self.net = nn.Sequential(
@@ -112,6 +127,7 @@ class DilConv(nn.Module):
     If dilation == 2, 3x3 conv => 5x5 receptive field
                       5x5 conv => 9x9 receptive field
     """
+
     def __init__(self, C_in, C_out, kernel_size, stride, padding, dilation, affine=True):
         super().__init__()
         self.net = nn.Sequential(
@@ -130,6 +146,7 @@ class SepConv(nn.Module):
     """ Depthwise separable conv
     DilConv(dilation=1) * 2
     """
+
     def __init__(self, C_in, C_out, kernel_size, stride, padding, affine=True):
         super().__init__()
         self.net = nn.Sequential(
@@ -166,6 +183,7 @@ class FactorizedReduce(nn.Module):
     """
     Reduce feature map size by factorized pointwise(stride=2).
     """
+
     def __init__(self, C_in, C_out, affine=True):
         super().__init__()
         self.relu = nn.ReLU()
@@ -182,6 +200,7 @@ class FactorizedReduce(nn.Module):
 
 class MixedOp(nn.Module):
     """ Mixed operation """
+
     def __init__(self, C, stride):
         super().__init__()
         self._ops = nn.ModuleList()

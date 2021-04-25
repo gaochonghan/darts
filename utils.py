@@ -6,6 +6,7 @@ import torch
 import torchvision.datasets as dset
 import numpy as np
 import preproc
+from torch.autograd import Variable
 
 
 def get_data(dataset, data_path, cutout_length, validation):
@@ -122,6 +123,15 @@ def accuracy(output, target, topk=(1,)):
         res.append(correct_k.mul_(1.0 / batch_size))
 
     return res
+
+
+def drop_path(x, drop_prob):
+  if drop_prob > 0.:
+    keep_prob = 1.-drop_prob
+    mask = Variable(torch.cuda.FloatTensor(x.size(0), 1, 1, 1).bernoulli_(keep_prob))
+    x.div_(keep_prob)
+    x.mul_(mask)
+  return x
 
 
 def save_checkpoint(state, ckpt_dir, is_best=False):
