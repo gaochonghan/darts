@@ -51,7 +51,7 @@ def main():
     print('---------Genotype---------')
     logging.info(genotype)
     print('--------------------------') 
-    model = Network(config.init_channels, CLASSES, config.layers, config.auxiliary, genotype)
+    model = Network(config.init_channels, CLASSES, config.layers, True, genotype)
     if num_gpus > 1:
         model = nn.DataParallel(model)
         model = model.cuda()
@@ -164,9 +164,9 @@ def train(train_queue, model, criterion, optimizer):
         optimizer.zero_grad()
         logits, logits_aux = model(input)
         loss = criterion(logits, target)
-        if config.auxiliary:
-            loss_aux = criterion(logits_aux, target)
-            loss += config.auxiliary_weight*loss_aux
+
+        loss_aux = criterion(logits_aux, target)
+        loss += config.auxiliary_weight*loss_aux
 
         loss.backward()
         nn.utils.clip_grad_norm_(model.parameters(), config.grad_clip)
@@ -211,7 +211,7 @@ def infer(valid_queue, model, criterion):
         top1.update(prec1.data.item(), n)
         top5.update(prec5.data.item(), n)
 
-        if step % config.report_freq == 0:
+        if step % config.print_freq == 0:
             end_time = time.time()
             if step == 0:
                 duration = 0
