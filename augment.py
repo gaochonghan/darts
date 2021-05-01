@@ -95,7 +95,8 @@ def main():
         utils.save_checkpoint({
             'state_dict': model.module.state_dict(),
             'best_top1': best_top1,
-            'optimizer': optimizer.state_dict()
+            'optimizer': optimizer.state_dict(),
+            'epoch': epoch
             }, config.path, is_best)
 
         print("")
