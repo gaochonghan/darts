@@ -16,7 +16,7 @@ eval "$(conda shell.bash hook)"
 source /home/LAB/anaconda3/bin/activate base
 # conda --version
 # which python
-conda activate cpy
+conda activate gch
 cd ..
 echo Python:
 which python
